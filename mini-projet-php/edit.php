@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "eventuser.php";
 if (!$_SESSION['connect_admin']) {
   header("Location: login.php");
 }
@@ -15,11 +16,11 @@ switch ($_GET["edit"]) {
     $query->execute();
     $result  = $query->fetch();
     break;
-  case 'user':
-    $sql = "SELECT * from utilisateur where iduser=:id";
-    $query = $db_con->prepare($sql);
-    $query->bindParam(':id', $id, PDO::PARAM_STR);
-    $query->execute();
+    case 'user':
+      $sql = "SELECT * from utilisateur where iduser=:id";
+      $query = $db_con->prepare($sql);
+      $query->bindParam(':id', $id, PDO::PARAM_STR);
+      $query->execute();
     $result  = $query->fetch();
     break;
 }
@@ -86,6 +87,7 @@ if (isset($_POST['modifier'])) {
       $query->bindParam(':id', $id, PDO::PARAM_INT);
 
       $query->execute();
+      eventuser();
 
       echo "<script>alert('Record Updated successfully');</script>";
       // Code for redirection

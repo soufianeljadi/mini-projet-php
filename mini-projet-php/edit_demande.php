@@ -1,6 +1,9 @@
 <?php
 session_start();
 include "connexion.php";
+if (!$_SESSION['connect'] == true) {
+  header('Location: gestion.php');
+}
 
 ?>
 <!DOCTYPE html>

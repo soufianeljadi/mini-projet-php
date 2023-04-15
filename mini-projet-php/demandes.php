@@ -21,7 +21,7 @@ $nbr_demandes = count($data);
 if (isset($_POST["eregistrer_reponse"])) {
   $idetud = $_POST["idetud"];
   $iduser = $_POST["iduser"];
-  $reponseadmin = $_POST["reponseadmin"];
+  $reponseadmin = $_POST["reponseadmin"] == "" ? null : $_POST["reponseadmin"]  ;
 
   $statut = 1;
   $sql = "update demande set iduser=?,reponseadmin=? , datereponse=? where idetud=?";

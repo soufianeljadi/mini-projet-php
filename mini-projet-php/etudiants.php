@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "connexion.php";
+include "eventuser.php";
 if (!$_SESSION['auth'] ) {
   header("Location: login.php");
 }
@@ -129,6 +130,7 @@ $total_etudiants = count($data);
 
                 $row = $query->bindParam(":id", $_POST["id"], PDO::PARAM_STR);
                 $query->execute();
+                eventuser();
                 echo "<script>  location.reload(); </script>";
                 exit();
               }

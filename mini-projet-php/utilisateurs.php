@@ -1,14 +1,11 @@
 <?php
 session_start();
-
+include "connexion.php";
+include "eventuser.php";
 if(!$_SESSION['connect_admin']){
   header("Location: login.php");
+
 }
-?>
-
-
-<?php
-include "connexion.php";
 $sql = "SELECT * FROM `utilisateur`";
 $query = $db_con->prepare($sql);
 $query->execute();
@@ -120,6 +117,7 @@ $total_utilisateurs = count($data);
 
                 $row = $query->bindParam(":id", $_POST["iduser"], PDO::PARAM_INT);
                 $query->execute();
+                eventuser();
                 echo "<script>window.location.href='utilisateurs.php'</script>";
                 exit();
               }

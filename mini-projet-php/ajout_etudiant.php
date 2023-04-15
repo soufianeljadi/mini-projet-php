@@ -1,5 +1,6 @@
 <?php
 include "connexion.php";
+include "eventuser.php";
 session_start();
 if (!$_SESSION['connect_admin']) {
   header("Location: login.php");
@@ -63,7 +64,7 @@ if (!$_SESSION['connect_admin']) {
               $query->bindParam(':filiere', $filiere, PDO::PARAM_STR);
               $query->bindParam(':statut', $statut, PDO::PARAM_STR);
               $query->execute();
-              
+              eventuser();
               header("Location: etudiants.php");
             }
           }

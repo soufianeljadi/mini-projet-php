@@ -1,27 +1,12 @@
- required<?php
+<?php
 include "connexion.php";
+include "eventuser.php";
 session_start();
 if (!$_SESSION['connect_admin']) {
   header("Location: login.php");
 }
 
-if (isset($_POST["submit"])) {
 
-  $login = $_POST["login"];
-  $password = $_POST["password"];
-  $profil = $_POST["profil"];
-
-  $statut = 1;
-  $sql = "INSERT INTO `Utilisateur`  (login, password, profil,statut) VALUES (:login, :password, :profil,:statut)";
-  $query = $db_con->prepare($sql);
-
-  $query->bindParam(':login', $login, PDO::PARAM_STR);
-  $query->bindParam(':password', $password, PDO::PARAM_STR);
-  $query->bindParam(':profil', $profil, PDO::PARAM_STR);
-  $query->bindParam(':statut', $statut, PDO::PARAM_STR);
-  $query->execute();
-  header("Location: utilisateurs.php");
-}
 
 ?>
 
@@ -58,9 +43,35 @@ if (isset($_POST["submit"])) {
         <div class="row">
           <div class="container">
             <div class="card">
+              <?php
+              if (isset($_POST["submit"])) {
+
+                $login = $_POST["login"];
+                $password = $_POST["password"];
+                $profil = $_POST["profil"];
+
+                $statut = 1;
+                $stmt = $db_con->prepare("SELECT * FROM Utilisateur WHERE login = :login");
+                $stmt->bindParam(':login', $login);
+                $stmt->execute();
+                if ($stmt->rowCount() > 0) {
+                  echo "<li style='width: fit-content' class='alert alert-danger'>L'utilisateur  existe déjà. Veuillez en saisir un nouveau.</li>";
+                } else {
+                  $sql = "INSERT INTO `Utilisateur`  (login, password, profil,statut) VALUES (:login, :password, :profil,:statut)";
+                  $query = $db_con->prepare($sql);
+
+                  $query->bindParam(':login', $login, PDO::PARAM_STR);
+                  $query->bindParam(':password', $password, PDO::PARAM_STR);
+                  $query->bindParam(':profil', $profil, PDO::PARAM_STR);
+                  $query->bindParam(':statut', $statut, PDO::PARAM_STR);
+                  $query->execute();
+                  eventuser();
+                  header("Location: utilisateurs.php");
+                }
+              }
+              ?>
               <div class="card-header">
                 <h1>Ajouter un utilisateur</h1>
-
               </div>
               <div class="card-body" style="width: 400px;">
                 <form method="post">

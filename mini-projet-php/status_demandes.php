@@ -1,9 +1,9 @@
 <?php
 session_start();
-?>
+if (!$_SESSION['connect_admin']) {
+  header("Location: login.php");
+}
 
-
-<?php
 include "connexion.php";
 $sql = "SELECT * FROM `etudiant` ";
 $query = $db_con->prepare($sql);
@@ -50,15 +50,11 @@ $total_etudiants = count($data);
 
           <div class="col-md">
             <?php
-            // $file = fopen("cloturer_operation.txt", "r");
-            // $res = file_get_contents("cloturer_operation.txt");
-
-
+            //Cloturer
             if (isset($_POST['submit'])) {
               $status = $_POST['status'];
               file_put_contents("cloturer_operation.txt", $status);
             }
-
             // Read the status from the file
             $status = file_get_contents("cloturer_operation.txt");
             ?>

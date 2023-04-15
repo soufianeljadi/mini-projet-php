@@ -66,12 +66,13 @@ $nb_demandes_sans_reponse = $query->rowCount();
         <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>
         <hr>
         <div class="row">
-      
+
           <div class="col-md-7">
 
             <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
           </div>
           <div class="col-md-5">
+          
             <div class="well">
               <div class="glyphicon glyphicon-user"></div> Nombre total des étudiants <span class="badge pull-right"><?php echo $total_etudiants; ?></span>
             </div>
@@ -89,6 +90,28 @@ $nb_demandes_sans_reponse = $query->rowCount();
           </div>
 
           <div class="col-md-5">
+          <?php
+            //Cloturer
+            if (isset($_POST['submit'])) {
+              $status = $_POST['status'];
+              file_put_contents("cloturer_operation.txt", $status);
+            }
+            // Read the status from the file
+            $status = file_get_contents("cloturer_operation.txt");
+            ?>
+            <div class="status-demandes">
+              <?php if ($status == 1) { ?>
+                <div >
+                <span style="width: 100%;padding: 10px;font-size: 11px;font-family: unset;background: #3F51B5;margin-bottom: 10px;" class="badge pull-right"><div class="glyphicon glyphicon-ok"></div> L’opération des demandes de modules libres est Ouverte</span>
+
+                </div>
+                
+              <?php } else { ?>
+                <div >
+                <span style="width: 100%;padding: 10px;font-size: 11px;font-family: unset;background: #3F51B5;margin-bottom: 10px;" class="badge pull-right"><div class="glyphicon glyphicon-remove"></div>L’opération des demandes de modules libres est fermee</span>
+                </div>
+              <?php } ?>
+            </div>
             <h4>Nombre des demandes par filliere : </h4>
             <table style="    background: #e4e4e4;border: 2px solid;" class="table table-responsive table-hover">
               <?php
