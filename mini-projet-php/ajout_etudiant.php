@@ -63,6 +63,7 @@ if (!$_SESSION['connect_admin']) {
               $query->bindParam(':filiere', $filiere, PDO::PARAM_STR);
               $query->bindParam(':statut', $statut, PDO::PARAM_STR);
               $query->execute();
+              
               header("Location: etudiants.php");
             }
           }
@@ -83,15 +84,15 @@ if (!$_SESSION['connect_admin']) {
                 <div class="col-6">
                   <div class="my-2">
                     <label class="form-label">Nom</label>
-                    <input class="form-control" type="text" placeholder="nom" name="nom">
+                    <input required class="form-control" type="text" placeholder="nom" name="nom">
                   </div>
                   <div class="my-2">
                     <label class="form-label">Prenom</label>
-                    <input class="form-control" type="text" placeholder="prenom" name="prenom">
+                    <input required class="form-control" type="text" placeholder="prenom" name="prenom">
                   </div>
                   <div class="my-2">
                     <label class="form-label">Code Apogee</label>
-                    <input class="form-control" type="text" placeholder="Apogee" name="apogee">
+                    <input required class="form-control" type="text" placeholder="Apogee" name="apogee">
                   </div>
                 </div>
               </div>
@@ -99,11 +100,11 @@ if (!$_SESSION['connect_admin']) {
                 <div class="col-6">
                   <div class="my-2">
                     <label class="form-label">Date naissance</label>
-                    <input class="form-control" type="date" placeholder="Date naissance" name="datenaissance">
+                    <input required class="form-control" type="date" placeholder="Date naissance" name="datenaissance">
                   </div>
                   <div class="my-2">
                     <label class="form-label">Filliere</label>
-                    <input class="form-control" type="text" placeholder="filliere" name="filiere">
+                    <input required class="form-control" type="text" placeholder="filliere" name="filiere">
                   </div>
                 </div>
               </div>

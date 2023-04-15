@@ -1,4 +1,4 @@
-<?php
+ required<?php
 include "connexion.php";
 session_start();
 if (!$_SESSION['connect_admin']) {
@@ -68,15 +68,15 @@ if (isset($_POST["submit"])) {
                     <div class="col-6">
                       <div class="my-2">
                         <label class="form-label">Login</label>
-                        <input class="form-control" type="email" placeholder="login" name="login">
+                        <input required class="form-control" type="email" placeholder="login" name="login">
                       </div>
                       <div class="my-2" style="margin: 10px 0;">
                         <label class="form-label">Password</label>
-                        <input class="form-control" type="password" placeholder="password" name="password">
+                        <input required class="form-control" type="password" placeholder="password" name="password">
                       </div>
                       <div class="my-2">
                         <label class="form-label">Profil</label>
-                        <select name="profil">
+                        <select required name="profil">
                           <option disabled>SELECT----</option>
                           <option value="1">Chef de scolarité </option>
                           <option value="0">Agent</option>

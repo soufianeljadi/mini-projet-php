@@ -1,7 +1,7 @@
 <?php
 session_start();
 include "connexion.php";
-
+include "eventuser.php";
 if (!$_SESSION['auth'] ) {
   header("Location: login.php");
 }
@@ -24,14 +24,17 @@ if (isset($_POST["eregistrer_reponse"])) {
   $reponseadmin = $_POST["reponseadmin"];
 
   $statut = 1;
-  $sql = "update demande set iduser=:iduser,reponseadmin=:reponseadmin where idetud=:idetud";
+  $sql = "update demande set iduser=?,reponseadmin=? , datereponse=? where idetud=?";
 
   $query = $db_con->prepare($sql);
 
-  $query->bindParam(':iduser', $iduser, PDO::PARAM_STR);
-  $query->bindParam(':idetud', $idetud, PDO::PARAM_INT);
-  $query->bindParam(':reponseadmin', $reponseadmin, PDO::PARAM_STR);
-  $query->execute();
+  // $query->bindParam(':iduser', $_SESSION["user"]["iduser"], PDO::PARAM_INT);
+  // $query->bindParam(':idetud', $idetud, PDO::PARAM_INT);
+  // $query->bindParam(':reponseadmin', $reponseadmin, PDO::PARAM_STR);
+  // $current_date = date("d-m-Y");
+  // $query->bindParam(':datereponse',$current_date , PDO::PARAM_STR);
+  $query->execute([$iduser,$reponseadmin,date("Y-m-d"),$idetud]);
+  eventuser();
   echo "<script>window.location = 'demandes.php'</script>";
   exit();
 }
@@ -136,8 +139,9 @@ if (isset($_POST["eregistrer_reponse"])) {
                     </td>
                     <td>
                       <form method="post">
-                        <input type="hidden" name="idetud" value="<?php echo $demande["idetud"] ?>">
-                        <input type="hidden" name="iduser" value="<?php echo $_SESSION["user"]["iduser"] ?>">
+                        <input type="hidden" name="idetud" value="<?php echo $demande["idetud"]; ?>">
+                        <input type="hidden" name="iduser" value="<?php echo $_SESSION["user"]["iduser"]; ?>">
+                        <span style="font-family: auto;background: #cccccc5c;padding: 4px;border-radius: 4px;color: #F44336;"> Date du derniere reponse : <?php echo isset($demande["datereponse"]) ? $demande["datereponse"] : "-----"; ?> </span>
                         <textarea style="padding: 8px;border: 1px solid #3F51B5;border-radius: 4px;margin-bottom: 4px;" name="reponseadmin" placeholder="ajouter une reponse" cols="30" rows="3"><?php echo $demande["reponseadmin"]; ?></textarea>
 
                         <input type="submit" name="eregistrer_reponse" class='btn btn-sm btn-danger' value="Enregistrer la reponse" />
